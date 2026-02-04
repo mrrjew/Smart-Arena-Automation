@@ -13,7 +13,7 @@ const N8N_WEBHOOK_URL =
 app.use(
   cors({
     origin:
-      process.env.FRONTEND_URL || "https://smart-arena-automation.vercel.app/",
+      process.env.FRONTEND_URL || "https://smart-arena-automation.vercel.app",
   }),
 );
 app.use(express.json());
