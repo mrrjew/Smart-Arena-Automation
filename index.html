@@ -354,7 +354,9 @@
             <option value="">Select Course</option>
             <option value="PHYS 143">PHYS 143</option>
             <option value="MATH 121">MATH 121</option>
-            <option value="CODING IN AI ERA">CODING IN AI ERA</option>
+            <option value="CODING IN THE ERA OF AI">
+              CODING IN THE ERA OF AI
+            </option>
           </select>
 
           <select id="class_type" style="display: none">
@@ -428,7 +430,10 @@
 
         if (course.includes("PHYS") || course.includes("MATH")) {
           classType.value = "in-person";
-        } else if (course.includes("DCIT") || course.includes("CODING")) {
+        } else if (
+          course.includes("CODING IN THE ERA OF AI") ||
+          course.includes("CODING")
+        ) {
           classType.value = "online";
         } else {
           classType.value = "online";
