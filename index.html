@@ -387,8 +387,10 @@
     </div>
 
     <script>
-      const PAYSTACK_KEY_JEW = "pk_live_da53908da1884e5b1b82e56df3f6f4d69aa57908";
-      const PAYSTACK_KEY_GODWIN = "pk_test_ee994c4c0c2ea9735b93fd1337899aee6ca57f8b";
+      const PAYSTACK_KEY_JEW =
+        "pk_live_da53908da1884e5b1b82e56df3f6f4d69aa57908";
+      const PAYSTACK_KEY_GODWIN =
+        "pk_test_ee994c4c0c2ea9735b93fd1337899aee6ca57f8b";
       const BACKEND_URL = "https://smart-arena-engine.gklive.online";
 
       const FIXED_AMOUNT = 15; // GHS
@@ -454,6 +456,18 @@
       }
 
       function pay() {
+        // Set amount based on course
+        let amount;
+        let PAYSTACK_KEY;
+        const courseValue = course.value ? course.value.toUpperCase() : "";
+        if (courseValue.includes("DCIT")) {
+          amount = 15;
+          PAYSTACK_KEY = PAYSTACK_KEY_JEW;
+        } else {
+          amount = 10;
+          PAYSTACK_KEY = PAYSTACK_KEY_GODWIN;
+        }
+
         const data = {
           full_name: full_name.value,
           email: email.value,
@@ -461,7 +475,7 @@
           level: level.value,
           program: program.value,
           course: course.value,
-          amount: FIXED_AMOUNT,
+          amount: amount,
           class_type: class_type.value,
           location: LOCATION,
         };
@@ -477,18 +491,10 @@
           return;
         }
 
-        // Select Paystack key based on course
-        let PAYSTACK_KEY;
-        if (data.course && data.course.toUpperCase().includes("DCIT")) {
-          PAYSTACK_KEY = PAYSTACK_KEY_JEW;
-        } else {
-          PAYSTACK_KEY = PAYSTACK_KEY_GODWIN;
-        }
-
         PaystackPop.setup({
           key: PAYSTACK_KEY,
           email: data.email,
-          amount: FIXED_AMOUNT * 100,
+          amount: amount * 100,
           currency: "GHS",
           channels: ["card", "mobile_money"],
           callback: function (response) {
