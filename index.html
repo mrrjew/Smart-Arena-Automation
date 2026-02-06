@@ -354,9 +354,7 @@
             <option value="">Select Course</option>
             <option value="PHYS 143">PHYS 143</option>
             <option value="MATH 121">MATH 121</option>
-            <option value="CODING IN THE ERA OF AI">
-              CODING IN THE ERA OF AI
-            </option>
+            <option value="DCIT 101">DCIT 101</option>
           </select>
 
           <select id="class_type" style="display: none">
@@ -391,8 +389,6 @@
     <script>
       const PAYSTACK_KEY_JEW =
         "pk_live_da53908da1884e5b1b82e56df3f6f4d69aa57908";
-      const PAYSTACK_KEY_GODWIN =
-        "pk_test_ee994c4c0c2ea9735b93fd1337899aee6ca57f8b";
       const BACKEND_URL = "https://smart-arena-engine.gklive.online";
 
       const FIXED_AMOUNT = 15; // GHS
@@ -430,10 +426,7 @@
 
         if (course.includes("PHYS") || course.includes("MATH")) {
           classType.value = "in-person";
-        } else if (
-          course.includes("CODING IN THE ERA OF AI") ||
-          course.includes("CODING")
-        ) {
+        } else if (course.includes("DCIT") || course.includes("CODING")) {
           classType.value = "online";
         } else {
           classType.value = "online";
@@ -463,14 +456,11 @@
       function pay() {
         // Set amount based on course
         let amount;
-        let PAYSTACK_KEY;
         const courseValue = course.value ? course.value.toUpperCase() : "";
-        if (courseValue.includes("CODING IN THE ERA OF AI") || courseValue.includes("CODING")) {
+        if (courseValue.includes("DCIT") || courseValue.includes("CODING")) {
           amount = 15;
-          PAYSTACK_KEY = PAYSTACK_KEY_JEW;
         } else {
           amount = 10;
-          PAYSTACK_KEY = PAYSTACK_KEY_GODWIN;
         }
 
         const data = {
@@ -496,11 +486,20 @@
           return;
         }
 
+        // Subaccount logic
+        let subaccount = null;
+        if (courseValue.includes("PHYS") || courseValue.includes("MATH")) {
+          subaccount = "ACCT_f1s7qsloi1y3c1m";
+        }
+
+        console.log(subaccount)
         PaystackPop.setup({
-          key: PAYSTACK_KEY,
+          key: PAYSTACK_KEY_JEW, // Use only one public key
           email: data.email,
           amount: amount * 100,
           currency: "GHS",
+          ...(subaccount && { subaccount: subaccount }),
+          bearer: "subaccount",
           channels: ["card", "mobile_money"],
           callback: function (response) {
             submitToBackend(data, "success", response.reference)
