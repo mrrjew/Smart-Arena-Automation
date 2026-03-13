@@ -391,7 +391,7 @@
         "pk_live_da53908da1884e5b1b82e56df3f6f4d69aa57908";
       const BACKEND_URL = "https://smart-arena-engine.gklive.online";
 
-      const FIXED_AMOUNT = 15; // GHS
+      const FIXED_AMOUNT = 12; // GHS
       const LOCATION = "PL";
 
       function showModal(type, title, message) {
@@ -458,7 +458,7 @@
         let amount;
         const courseValue = course.value ? course.value.toUpperCase() : "";
         if (courseValue.includes("DCIT") || courseValue.includes("CODING")) {
-          amount = 15;
+          amount = 12;
         } else {
           amount = 10;
         }
